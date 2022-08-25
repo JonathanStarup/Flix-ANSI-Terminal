@@ -1,6 +1,11 @@
 # flix-terminal
 
-Enter some useful information.
+Convenient wrapper of ANSI methods
+[listed here](https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_(Control_Sequence_Introducer)_sequences). 
+
+# Flix version
+
+Latest Flix commit, the version will be fixed once 0.31.0 arrives.
 
 # License
 
