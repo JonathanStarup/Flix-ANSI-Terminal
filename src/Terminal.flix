@@ -23,7 +23,7 @@ namespace Terminal {
     ///
     pub def cursorUp(n: Int32): Unit \ IO =
         if (n <= 0) () else
-        output(csi("${n}A"))
+        output(Terminal/String.cursorUp(n))
 
     ///
     /// Moves the cursor `n` cells down. If the cursor is already at the edge of
@@ -31,7 +31,7 @@ namespace Terminal {
     ///
     pub def cursorDown(n: Int32): Unit \ IO =
         if (n <= 0) () else
-        output(csi("${n}B"))
+        output(Terminal/String.cursorDown(n))
 
     ///
     /// Moves the cursor `n` cells forward. If the cursor is already at the edge of
@@ -39,7 +39,7 @@ namespace Terminal {
     ///
     pub def cursorForward(n: Int32): Unit \ IO =
         if (n <= 0) () else
-        output(csi("${n}C"))
+        output(Terminal/String.cursorForward(n))
 
     ///
     /// Moves the cursor `n` cells back. If the cursor is already at the edge of
@@ -47,80 +47,158 @@ namespace Terminal {
     ///
     pub def cursorBack(n: Int32): Unit \ IO =
         if (n <= 0) () else
-        output(csi("${n}D"))
+        output(Terminal/String.cursorBack(n))
 
     ///
     /// Moves the cursor to row `n`, column `m`, starting at `(0, 0)`.
     ///
-    pub def cursorTo(x: {x::Int32}, y: Int32): Unit \ IO =
-        if (x.x < 0 or y < 0) () else
-        if (x.x == 0 and y == 0) () else
-        // ones could be ommited here for output brevity
-        output(csi("${y+1};${x.x+1}H"))
+    pub def cursorTo(row: {row::Int32}, column: Int32): Unit \ IO =
+        if (row.row < 0 or column < 0) () else
+        if (row.row == 0 and column == 0) () else
+        output(Terminal/String.cursorTo(row, column))
 
     ///
-    /// Clears part of the screen. If n is 0, clear from cursor to end of
-    //screen. If n is 1, clear from cursor to beginning of the screen. If n is
-    //2, clear entire screen (and moves cursor to upper left on DOS ANSI.SYS).
-    //If n is 3, clear entire screen and delete all lines saved in the
-    //scrollback buffer (this feature was added for xterm and is supported by
-    //other terminal applications).
-
-    ///
-    /// Clear from cursor to end of screen.
+    /// Clear from cursor (inclusive) to end of screen.
     ///
     pub def clearScreenAfterCursor(): Unit \ IO =
-        // implicitely give argument 0
-        output(csi("J"))
+        output(Terminal/String.clearScreenAfterCursor())
 
     ///
-    /// Clear from cursor to beginning of the screen.
+    /// Clear from cursor (inclusive) to beginning of the screen.
     ///
     pub def clearScreenBeforeCursor(): Unit \ IO =
-        output(csi("1J"))
+        output(Terminal/String.clearScreenBeforeCursor())
 
     ///
     /// Clear entire screen and moves cursor to upper left.
     ///
     pub def clearScreenAndReset(): Unit \ IO =
-        output(csi("2J"))
+        output(Terminal/String.clearScreenAndReset())
 
     ///
-    /// Clear entire screen and delete all lines saved in the scrollback buffer
-    /// thereby also resetting the cursor.
-    ///
-    pub def clearScreenAndBuffer(): Unit \ IO =
-        output(csi("3J"))
-
-    ///
-    /// Clear from cursor to the end of the line.
+    /// Clear from cursor (inclusive) to the end of the line.
     /// Cursor position does not change.
     ///
     pub def clearLineAfterCursor(): Unit \ IO =
-        // implicitely give argument 0
-        output(csi("K"))
+        output(Terminal/String.clearLineAfterCursor())
 
     ///
-    /// Clear from cursor to beginning of the line.
+    /// Clear from cursor (inclusive) to beginning of the line.
     /// Cursor position does not change.
     ///
     pub def clearLineBeforeCursor(): Unit \ IO =
-        output(csi("1K"))
+        output(Terminal/String.clearLineBeforeCursor())
 
     ///
     /// Clear entire line. Cursor position does not change.
     ///
     pub def clearLine(): Unit \ IO =
-        output(csi("2K"))
+        output(Terminal/String.clearLine())
 
+    ///
+    /// Saves the current cursor position for later restoration.
+    ///
+    pub def saveCursor(): Unit \ IO =
+        output(Terminal/String.saveCursor())
+
+    ///
+    /// Restores the previously saved cursor.
+    ///
+    pub def restoreCursor(): Unit \ IO =
+        output(Terminal/String.restoreCursor())
+
+    namespace String {
+        use Terminal.csi;
+
+        ///
+        /// String of the corresponding method in `Terminal`.
+        ///
+        pub def cursorUp(n: Int32): String =
+            if (n <= 0) "" else csi("${n}A")
+
+        ///
+        /// String of the corresponding method in `Terminal`.
+        ///
+        pub def cursorDown(n: Int32): String =
+            if (n <= 0) "" else csi("${n}B")
+
+        ///
+        /// String of the corresponding method in `Terminal`.
+        ///
+        pub def cursorForward(n: Int32): String =
+            if (n <= 0) "" else csi("${n}C")
+
+        ///
+        /// String of the corresponding method in `Terminal`.
+        ///
+        pub def cursorBack(n: Int32): String =
+            if (n <= 0) "" else csi("${n}D")
+
+        ///
+        /// String of the corresponding method in `Terminal`.
+        ///
+        pub def cursorTo(row: {row::Int32}, column: Int32): String =
+            if (row.row < 0 or column < 0) "" else
+            // ones could be ommited here for output brevity
+            csi("${row.row+1};${column+1}H")
+
+        ///
+        /// String of the corresponding method in `Terminal`.
+        ///
+        pub def clearScreenAfterCursor(): String =
+            // implicitely give argument 0
+            csi("J")
+
+        ///
+        /// String of the corresponding method in `Terminal`.
+        ///
+        pub def clearScreenBeforeCursor(): String =
+            csi("1J")
+
+        ///
+        /// String of the corresponding method in `Terminal`.
+        ///
+        pub def clearScreenAndReset(): String =
+            csi("2J") + cursorTo(row = 0, 0)
+
+        ///
+        /// String of the corresponding method in `Terminal`.
+        ///
+        pub def clearLineAfterCursor(): String =
+            // implicitely give argument 0
+            csi("K")
+
+        ///
+        /// String of the corresponding method in `Terminal`.
+        ///
+        pub def clearLineBeforeCursor(): String =
+            csi("1K")
+
+        ///
+        /// String of the corresponding method in `Terminal`.
+        ///
+        pub def clearLine(): String =
+            csi("2K")
+
+        ///
+        /// String of the corresponding method in `Terminal`.
+        ///
+        pub def saveCursor(): String =
+            csi("s")
+
+        ///
+        /// String of the corresponding method in `Terminal`.
+        ///
+        pub def restoreCursor(): String =
+            csi("u")
+
+    }
 
     def output(x: s): Unit \ IO with ToString[s] =
-        Console.print(x)
-
-    def escape(s: String): String =
-        "\u001B${s}"
+        print(x)
 
     def csi(s: String): String =
-        escape("[${s}")
+        let escapeByte = "\u001B";
+        "${escapeByte}[${s}"
 
 }
