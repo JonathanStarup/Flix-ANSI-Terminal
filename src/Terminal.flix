@@ -97,6 +97,8 @@ namespace Terminal {
 
     ///
     /// Saves the current cursor position for later restoration.
+    /// OBS: Note that this position does not account for terminal scrolling
+    /// when printing newlines at the bottom of the terminal.
     ///
     pub def saveCursor(): Unit \ IO =
         output(Terminal/String.saveCursor())
