@@ -12,6 +12,11 @@ namespace TestTerminal {
 
     def sleepTime(): Int64 = 1000i64
 
+    def nextLineIsh(): Unit \ IO = {
+        Terminal.cursorDown(1);
+        outputLine("")
+    }
+
     pub def testCursorUp(): Unit \ IO =
         outputLine("Expected Line: <<<x>>>");
         outputLine("<<< >>>");
@@ -21,7 +26,8 @@ namespace TestTerminal {
         Terminal.cursorUp(1);
         sleep(sleepTime());
 
-        output("x")
+        output("x");
+        nextLineIsh()
 
     pub def testCursorDown(): Unit \ IO =
         outputLine("Expected Line: <<<x>>>");
@@ -34,7 +40,8 @@ namespace TestTerminal {
         Terminal.cursorDown(1);
         sleep(sleepTime());
 
-        output("x")
+        output("x");
+        nextLineIsh()
 
     pub def testCursorForward(): Unit \ IO =
         outputLine("Expected Line: <<<x>>>");
@@ -46,7 +53,8 @@ namespace TestTerminal {
         Terminal.cursorForward(3);
         sleep(sleepTime());
 
-        output("x")
+        output("x");
+        nextLineIsh()
 
     pub def testCursorBack(): Unit \ IO =
         outputLine("Expected Line: <<<x>>>");
@@ -59,7 +67,8 @@ namespace TestTerminal {
         Terminal.cursorBack(4);
         sleep(sleepTime());
 
-        output("x")
+        output("x");
+        nextLineIsh()
 
     pub def testCursorTo(): Unit \ IO =
         Terminal.clearScreenAndReset();
@@ -71,7 +80,8 @@ namespace TestTerminal {
         Terminal.cursorTo(row = 1, 3);
         sleep(sleepTime());
 
-        output("x")
+        output("x");
+        nextLineIsh()
 
     pub def testClearScreenAfterCursor(): Unit \ IO =
         outputLine("Expected Line: <<<x>>>");
@@ -84,7 +94,8 @@ namespace TestTerminal {
         Terminal.cursorForward(7);
         sleep(sleepTime());
         Terminal.clearScreenAfterCursor();
-        sleep(sleepTime())
+        sleep(sleepTime());
+        nextLineIsh()
 
     pub def testClearScreenBeforeCursor(): Unit \ IO =
         outputLine("Expected Line: <<<x>>>");
@@ -97,7 +108,8 @@ namespace TestTerminal {
         Terminal.cursorForward(3);
         sleep(sleepTime());
         Terminal.clearScreenBeforeCursor();
-        sleep(sleepTime())
+        sleep(sleepTime());
+        nextLineIsh()
 
     pub def testClearScreenAndReset(): Unit \ IO =
         outputLine("Expected Line: <<<x>>>");
@@ -107,7 +119,8 @@ namespace TestTerminal {
         sleep(sleepTime());
         Terminal.clearScreenAndReset();
         sleep(sleepTime());
-        outputLine("<<<x>>>")
+        outputLine("<<<x>>>");
+        nextLineIsh()
 
     pub def testClearLineAfterCursor(): Unit \ IO =
         outputLine("Expected Line: <<<x>>>");
@@ -117,7 +130,8 @@ namespace TestTerminal {
         Terminal.cursorBack(7);
         sleep(sleepTime());
         Terminal.clearLineAfterCursor();
-        sleep(sleepTime())
+        sleep(sleepTime());
+        nextLineIsh()
 
     pub def testClearLineBeforeCursor(): Unit \ IO =
         outputLine("Expected Line: <<<x>>>");
@@ -127,7 +141,8 @@ namespace TestTerminal {
         Terminal.cursorBack(8);
         sleep(sleepTime());
         Terminal.clearLineBeforeCursor();
-        sleep(sleepTime())
+        sleep(sleepTime());
+        nextLineIsh()
 
     pub def testClearLine(): Unit \ IO =
         outputLine("Expected Line: <<<x>>>");
@@ -138,10 +153,16 @@ namespace TestTerminal {
         Terminal.cursorBack(3);
         sleep(sleepTime());
         Terminal.clearLine();
-        sleep(sleepTime())
+        sleep(sleepTime());
+        nextLineIsh()
 
     pub def testSaveAndRestore(): Unit \ IO =
         outputLine("Expected Line: <<<x>>>");
+
+        // avoid scrolling
+        outputLine("");
+        Terminal.cursorUp(1);
+
         output("<<<");
         Terminal.saveCursor();
         outputLine(" >>>");
@@ -150,6 +171,7 @@ namespace TestTerminal {
         Terminal.restoreCursor();
         sleep(sleepTime());
 
-        output("x")
+        output("x");
+        nextLineIsh()
 
 }
