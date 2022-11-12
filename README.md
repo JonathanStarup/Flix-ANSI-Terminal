@@ -7,7 +7,7 @@ the `Terminal/String` namespace.
 
 # Flix version
 
-Flix 0.33.0
+Flix 0.33.0+ [from this commit](https://github.com/flix/flix/commit/4ee8d86c4e0420c19a5ffc38bc7edd881ed107cd)
 
 # License
 
