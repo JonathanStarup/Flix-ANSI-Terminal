@@ -52,7 +52,7 @@ namespace Terminal {
     ///
     /// Moves the cursor to row `n`, column `m`, starting at `(0, 0)`.
     ///
-    pub def cursorTo(row: {row::Int32}, column: Int32): Unit \ IO =
+    pub def cursorTo(row: {row = Int32}, column: Int32): Unit \ IO =
         if (row.row < 0 or column < 0) () else
         if (row.row == 0 and column == 0) () else
         output(Terminal/String.cursorTo(row, column))
@@ -139,7 +139,7 @@ namespace Terminal {
         ///
         /// String of the corresponding method in `Terminal`.
         ///
-        pub def cursorTo(row: {row::Int32}, column: Int32): String =
+        pub def cursorTo(row: {row = Int32}, column: Int32): String =
             if (row.row < 0 or column < 0) "" else
             // ones could be ommited here for output brevity
             csi("${row.row+1};${column+1}H")
