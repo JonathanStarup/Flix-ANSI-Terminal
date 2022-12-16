@@ -197,7 +197,7 @@ namespace Terminal {
     }
 
     def output(x: s): Unit \ IO with ToString[s] =
-        print(x)
+        Console.print(x)
 
     def csi(s: String): String =
         let escapeByte = "\u001B";
