@@ -3,6 +3,9 @@ name: Build on Nightly
 on:
   pull_request:
     branches: [ master ]
+  push:
+    branches:
+      - 'main'
   # Also runs daily so we get a notification if a change in Flix breaks this
   schedule:
     - cron: '0 0 * * *'
