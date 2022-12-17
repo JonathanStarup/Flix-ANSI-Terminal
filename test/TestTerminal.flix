@@ -1,10 +1,10 @@
 namespace TestTerminal {
 
     def output(x: s): Unit \ IO with ToString[s] =
-        print(x)
+        Console.print(x)
 
     def outputLine(x: s): Unit \ IO with ToString[s] =
-        println(x)
+        Console.println(x)
 
     def sleep(millis: Int64): Unit \ IO =
         import static java.lang.Thread.sleep(Int64): Unit \ IO;
