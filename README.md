@@ -2,12 +2,12 @@
 
 Convenient wrapper of ANSI methods [listed
 here](https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_(Control_Sequence_Introducer)_sequences).
-Commands are output with `print` but raw strings can also be accessed in
+Commands are output with `Console.print` but raw strings can also be accessed in
 the `Terminal/String` namespace.
 
 # Flix version
 
-Flix 0.33.0+ [from this commit](https://github.com/flix/flix/commit/4ee8d86c4e0420c19a5ffc38bc7edd881ed107cd)
+Flix 0.34.0+ (nightly 2022-12-18)
 
 # License
 
