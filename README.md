@@ -3,7 +3,7 @@
 Convenient wrapper of ANSI methods [listed
 here](https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_(Control_Sequence_Introducer)_sequences).
 Commands are output with `Console.print` but raw strings can also be accessed in
-the `Terminal/String` namespace.
+the `Terminal.String` namespace.
 
 # Flix version
 
