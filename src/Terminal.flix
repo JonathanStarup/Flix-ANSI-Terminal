@@ -15,7 +15,7 @@
 // For more information see here
 // https://en.wikipedia.org/wiki/ANSI_escape_code
 
-namespace Terminal {
+mod Terminal {
 
     ///
     /// Moves the cursor `n` cells up. If the cursor is / already at the edge of
@@ -23,7 +23,7 @@ namespace Terminal {
     ///
     pub def cursorUp(n: Int32): Unit \ IO =
         if (n <= 0) () else
-        output(Terminal/String.cursorUp(n))
+        output(Terminal.String.cursorUp(n))
 
     ///
     /// Moves the cursor `n` cells down. If the cursor is already at the edge of
@@ -31,7 +31,7 @@ namespace Terminal {
     ///
     pub def cursorDown(n: Int32): Unit \ IO =
         if (n <= 0) () else
-        output(Terminal/String.cursorDown(n))
+        output(Terminal.String.cursorDown(n))
 
     ///
     /// Moves the cursor `n` cells forward. If the cursor is already at the edge of
@@ -39,7 +39,7 @@ namespace Terminal {
     ///
     pub def cursorForward(n: Int32): Unit \ IO =
         if (n <= 0) () else
-        output(Terminal/String.cursorForward(n))
+        output(Terminal.String.cursorForward(n))
 
     ///
     /// Moves the cursor `n` cells back. If the cursor is already at the edge of
@@ -47,7 +47,7 @@ namespace Terminal {
     ///
     pub def cursorBack(n: Int32): Unit \ IO =
         if (n <= 0) () else
-        output(Terminal/String.cursorBack(n))
+        output(Terminal.String.cursorBack(n))
 
     ///
     /// Moves the cursor to row `n`, column `m`, starting at `(0, 0)`.
@@ -55,45 +55,45 @@ namespace Terminal {
     pub def cursorTo(row: {row = Int32}, column: Int32): Unit \ IO =
         if (row.row < 0 or column < 0) () else
         if (row.row == 0 and column == 0) () else
-        output(Terminal/String.cursorTo(row, column))
+        output(Terminal.String.cursorTo(row, column))
 
     ///
     /// Clear from cursor (inclusive) to end of screen.
     ///
     pub def clearScreenAfterCursor(): Unit \ IO =
-        output(Terminal/String.clearScreenAfterCursor())
+        output(Terminal.String.clearScreenAfterCursor())
 
     ///
     /// Clear from cursor (inclusive) to beginning of the screen.
     ///
     pub def clearScreenBeforeCursor(): Unit \ IO =
-        output(Terminal/String.clearScreenBeforeCursor())
+        output(Terminal.String.clearScreenBeforeCursor())
 
     ///
     /// Clear entire screen and moves cursor to upper left.
     ///
     pub def clearScreenAndReset(): Unit \ IO =
-        output(Terminal/String.clearScreenAndReset())
+        output(Terminal.String.clearScreenAndReset())
 
     ///
     /// Clear from cursor (inclusive) to the end of the line.
     /// Cursor position does not change.
     ///
     pub def clearLineAfterCursor(): Unit \ IO =
-        output(Terminal/String.clearLineAfterCursor())
+        output(Terminal.String.clearLineAfterCursor())
 
     ///
     /// Clear from cursor (inclusive) to beginning of the line.
     /// Cursor position does not change.
     ///
     pub def clearLineBeforeCursor(): Unit \ IO =
-        output(Terminal/String.clearLineBeforeCursor())
+        output(Terminal.String.clearLineBeforeCursor())
 
     ///
     /// Clear entire line. Cursor position does not change.
     ///
     pub def clearLine(): Unit \ IO =
-        output(Terminal/String.clearLine())
+        output(Terminal.String.clearLine())
 
     ///
     /// Saves the current cursor position for later restoration.
@@ -101,15 +101,15 @@ namespace Terminal {
     /// when printing newlines at the bottom of the terminal.
     ///
     pub def saveCursor(): Unit \ IO =
-        output(Terminal/String.saveCursor())
+        output(Terminal.String.saveCursor())
 
     ///
     /// Restores the previously saved cursor.
     ///
     pub def restoreCursor(): Unit \ IO =
-        output(Terminal/String.restoreCursor())
+        output(Terminal.String.restoreCursor())
 
-    namespace String {
+    mod String {
         use Terminal.csi;
 
         ///

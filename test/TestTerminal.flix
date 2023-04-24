@@ -1,4 +1,4 @@
-namespace TestTerminal {
+mod TestTerminal {
 
     def output(x: s): Unit \ IO with ToString[s] =
         Console.print(x)
