@@ -5,10 +5,6 @@ here](https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_(Control_Sequence_Intro
 Commands are output with `Console.print` but raw strings can also be accessed in
 the `Terminal.String` namespace.
 
-# Flix version
-
-Flix 0.34.0+ (nightly 2022-12-18)
-
 # License
 
 Copyright 2022 Jonathan Lindegaard Starup
