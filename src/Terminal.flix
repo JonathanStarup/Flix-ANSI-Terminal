@@ -54,7 +54,6 @@ mod Terminal {
     ///
     pub def cursorTo(row: {row = Int32}, column: Int32): Unit \ IO =
         if (row.row < 0 or column < 0) () else
-        if (row.row == 0 and column == 0) () else
         output(Terminal.String.cursorTo(row, column))
 
     ///
