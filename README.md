@@ -1,4 +1,4 @@
-# flix-terminal
+# Flix-ANSI-Terminal
 
 Convenient wrapper of ANSI methods [listed
 here](https://en.wikipedia.org/wiki/ANSI_escape_code#CSI_(Control_Sequence_Introducer)_sequences).
