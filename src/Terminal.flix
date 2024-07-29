@@ -1,3 +1,4 @@
+//
 // Copyright 2022 Jonathan Lindegaard Starup
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,6 +12,7 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
+//
 
 // For more information see here
 // https://en.wikipedia.org/wiki/ANSI_escape_code
@@ -53,7 +55,7 @@ mod Terminal {
     /// Moves the cursor to row `n`, column `m`, starting at `(0, 0)`.
     ///
     pub def cursorTo(row: {row = Int32}, column: Int32): Unit \ IO =
-        if (row.row < 0 or column < 0) () else
+        if (row#row < 0 or column < 0) () else
         output(Terminal.String.cursorTo(row, column))
 
     ///
@@ -109,7 +111,7 @@ mod Terminal {
         output(Terminal.String.restoreCursor())
 
     mod String {
-        use Terminal.csi;
+        use Terminal.csi
 
         ///
         /// String of the corresponding method in `Terminal`.
@@ -139,9 +141,9 @@ mod Terminal {
         /// String of the corresponding method in `Terminal`.
         ///
         pub def cursorTo(row: {row = Int32}, column: Int32): String =
-            if (row.row < 0 or column < 0) "" else
+            if (row#row < 0 or column < 0) "" else
             // ones could be ommited here for output brevity
-            csi("${row.row+1};${column+1}H")
+            csi("${row#row+1};${column+1}H")
 
         ///
         /// String of the corresponding method in `Terminal`.
@@ -198,8 +200,9 @@ mod Terminal {
     def output(x: s): Unit \ IO with ToString[s] =
         Console.print(x)
 
-    def csi(s: String): String =
+    def csi(s: String): String = {
         let escapeByte = "\u001B";
         "${escapeByte}[${s}"
+    }
 
 }
