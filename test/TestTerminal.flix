@@ -15,31 +15,41 @@
 //
 
 mod TestTerminal {
+    import java.lang.Thread
+    import java.lang.System
 
-    def output(x: s): Unit \ IO with ToString[s] = {
-        Console.print(x);
-        Console.flush()
-    }
+    def output(x: t): Unit \ Console with ToString[t] =
+        do Console.print(ToString.toString(x))
 
-    def outputLine(x: s): Unit \ IO with ToString[s] = {
-        Console.println(x);
-        Console.flush()
-    }
+    def outputln(x: t): Unit \ Console with ToString[t] =
+        do Console.println(ToString.toString(x))
 
     def sleep(millis: Int64): Unit \ IO =
-        import static java.lang.Thread.sleep(Int64): Unit \ IO;
-        sleep(millis)
+        Thread.sleep(millis)
 
     def sleepTime(): Int64 = 1000i64
 
-    def nextLineIsh(): Unit \ IO = {
-        Terminal.cursorDown(1);
-        outputLine("")
+    def run(f: Unit -> a \ ef): a \ (ef - Console) + IO = {
+        // TODO use Console.run once fixed
+        checked_ecast(try {
+            f()
+        } with Console {
+            def readln(k)        = k(System.console().readLine())
+            def print(s, k)      = { System.out.print(s); System.out.flush(); k() }
+            def printErr(s, k)   = { System.err.print(s); System.err.flush(); k() }
+            def println(s, k)    = { System.out.println(s); System.out.flush(); k() }
+            def printlnErr(s, k) = { System.err.println(s); System.err.flush(); k() }
+        })
     }
 
-    pub def testCursorUp(): Unit \ IO = {
-        outputLine("Expected Line: <<<x>>>");
-        outputLine("<<< >>>");
+    def nextLineIsh(): Unit \ Console = {
+        Terminal.cursorDown(1);
+        outputln("")
+    }
+
+    pub def testCursorUp(): Unit \ IO = run(() -> {
+        outputln("Expected Line: <<<x>>>");
+        outputln("<<< >>>");
         output("   ");
 
         sleep(sleepTime());
@@ -48,11 +58,11 @@ mod TestTerminal {
 
         output("x");
         nextLineIsh()
-    }
+    })
 
-    pub def testCursorDown(): Unit \ IO = {
-        outputLine("Expected Line: <<<x>>>");
-        outputLine("<<< >>>");
+    pub def testCursorDown(): Unit \ IO = run(() -> {
+        outputln("Expected Line: <<<x>>>");
+        outputln("<<< >>>");
         output("   ");
 
         sleep(sleepTime());
@@ -63,11 +73,11 @@ mod TestTerminal {
 
         output("x");
         nextLineIsh()
-    }
+    })
 
-    pub def testCursorForward(): Unit \ IO = {
-        outputLine("Expected Line: <<<x>>>");
-        outputLine("<<< >>>");
+    pub def testCursorForward(): Unit \ IO = run(() -> {
+        outputln("Expected Line: <<<x>>>");
+        outputln("<<< >>>");
 
         sleep(sleepTime());
         Terminal.cursorUp(1);
@@ -77,11 +87,11 @@ mod TestTerminal {
 
         output("x");
         nextLineIsh()
-    }
+    })
 
-    pub def testCursorBack(): Unit \ IO = {
-        outputLine("Expected Line: <<<x>>>");
-        outputLine("<<< >>>");
+    pub def testCursorBack(): Unit \ IO = run(() -> {
+        outputln("Expected Line: <<<x>>>");
+        outputln("<<< >>>");
         output("       ");
 
         sleep(sleepTime());
@@ -92,13 +102,13 @@ mod TestTerminal {
 
         output("x");
         nextLineIsh()
-    }
+    })
 
-    pub def testCursorTo(): Unit \ IO = {
+    pub def testCursorTo(): Unit \ IO = run(() -> {
         Terminal.clearScreenAndReset();
         sleep(sleepTime());
-        outputLine("Expected Line: <<<x>>>");
-        outputLine("<<< >>>");
+        outputln("Expected Line: <<<x>>>");
+        outputln("<<< >>>");
 
         sleep(sleepTime());
         Terminal.cursorTo(row = 1, 3);
@@ -106,12 +116,12 @@ mod TestTerminal {
 
         output("x");
         nextLineIsh()
-    }
+    })
 
-    pub def testClearScreenAfterCursor(): Unit \ IO = {
-        outputLine("Expected Line: <<<x>>>");
-        outputLine("<<<x>>>######");
-        outputLine("##########");
+    pub def testClearScreenAfterCursor(): Unit \ IO = run(() -> {
+        outputln("Expected Line: <<<x>>>");
+        outputln("<<<x>>>######");
+        outputln("##########");
 
         sleep(sleepTime());
         Terminal.cursorUp(2);
@@ -121,12 +131,12 @@ mod TestTerminal {
         Terminal.clearScreenAfterCursor();
         sleep(sleepTime());
         nextLineIsh()
-    }
+    })
 
-    pub def testClearScreenBeforeCursor(): Unit \ IO = {
-        outputLine("Expected Line: <<<x>>>");
-        outputLine("##########");
-        outputLine("####<<<x>>>");
+    pub def testClearScreenBeforeCursor(): Unit \ IO = run(() -> {
+        outputln("Expected Line: <<<x>>>");
+        outputln("##########");
+        outputln("####<<<x>>>");
 
         sleep(sleepTime());
         Terminal.cursorUp(1);
@@ -136,22 +146,22 @@ mod TestTerminal {
         Terminal.clearScreenBeforeCursor();
         sleep(sleepTime());
         nextLineIsh()
-    }
+    })
 
-    pub def testClearScreenAndReset(): Unit \ IO = {
-        outputLine("Expected Line: <<<x>>>");
-        outputLine("##########");
-        outputLine("##########");
+    pub def testClearScreenAndReset(): Unit \ IO = run(() -> {
+        outputln("Expected Line: <<<x>>>");
+        outputln("##########");
+        outputln("##########");
 
         sleep(sleepTime());
         Terminal.clearScreenAndReset();
         sleep(sleepTime());
-        outputLine("<<<x>>>");
+        outputln("<<<x>>>");
         nextLineIsh()
-    }
+    })
 
-    pub def testClearLineAfterCursor(): Unit \ IO = {
-        outputLine("Expected Line: <<<x>>>");
+    pub def testClearLineAfterCursor(): Unit \ IO = run(() -> {
+        outputln("Expected Line: <<<x>>>");
         output("<<<x>>>#######");
 
         sleep(sleepTime());
@@ -160,10 +170,10 @@ mod TestTerminal {
         Terminal.clearLineAfterCursor();
         sleep(sleepTime());
         nextLineIsh()
-    }
+    })
 
-    pub def testClearLineBeforeCursor(): Unit \ IO = {
-        outputLine("Expected Line: <<<x>>>");
+    pub def testClearLineBeforeCursor(): Unit \ IO = run(() -> {
+        outputln("Expected Line: <<<x>>>");
         output("#####<<<x>>>");
 
         sleep(sleepTime());
@@ -172,11 +182,11 @@ mod TestTerminal {
         Terminal.clearLineBeforeCursor();
         sleep(sleepTime());
         nextLineIsh()
-    }
+    })
 
-    pub def testClearLine(): Unit \ IO = {
-        outputLine("Expected Line: <<<x>>>");
-        outputLine("<<<x>>>");
+    pub def testClearLine(): Unit \ IO = run(() -> {
+        outputln("Expected Line: <<<x>>>");
+        outputln("<<<x>>>");
         output("######");
 
         sleep(sleepTime());
@@ -185,18 +195,18 @@ mod TestTerminal {
         Terminal.clearLine();
         sleep(sleepTime());
         nextLineIsh()
-    }
+    })
 
-    pub def testSaveAndRestore(): Unit \ IO = {
-        outputLine("Expected Line: <<<x>>>");
+    pub def testSaveAndRestore(): Unit \ IO = run(() -> {
+        outputln("Expected Line: <<<x>>>");
 
         // avoid scrolling
-        outputLine("");
+        outputln("");
         Terminal.cursorUp(1);
 
         output("<<<");
         Terminal.saveCursor();
-        outputLine(" >>>");
+        outputln(" >>>");
 
         sleep(sleepTime());
         Terminal.restoreCursor();
@@ -204,6 +214,6 @@ mod TestTerminal {
 
         output("x");
         nextLineIsh()
-    }
+    })
 
 }
