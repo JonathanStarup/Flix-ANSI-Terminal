@@ -18,6 +18,8 @@ mod TestTerminal {
     import java.lang.Thread
     import java.lang.System
 
+    use Console.run
+
     def output(x: t): Unit \ Console with ToString[t] =
         do Console.print(ToString.toString(x))
 
@@ -28,19 +30,6 @@ mod TestTerminal {
         Thread.sleep(millis)
 
     def sleepTime(): Int64 = 1000i64
-
-    def run(f: Unit -> a \ ef): a \ (ef - Console) + IO = {
-        // TODO use Console.run once fixed
-        checked_ecast(try {
-            f()
-        } with Console {
-            def readln(k)        = k(System.console().readLine())
-            def print(s, k)      = { System.out.print(s); System.out.flush(); k() }
-            def printErr(s, k)   = { System.err.print(s); System.err.flush(); k() }
-            def println(s, k)    = { System.out.println(s); System.out.flush(); k() }
-            def printlnErr(s, k) = { System.err.println(s); System.err.flush(); k() }
-        })
-    }
 
     def nextLineIsh(): Unit \ Console = {
         Terminal.cursorDown(1);
