@@ -21,10 +21,10 @@ mod TestTerminal {
     use Console.run
 
     def output(x: t): Unit \ Console with ToString[t] =
-        do Console.print(ToString.toString(x))
+        Console.print(ToString.toString(x))
 
     def outputln(x: t): Unit \ Console with ToString[t] =
-        do Console.println(ToString.toString(x))
+        Console.println(ToString.toString(x))
 
     def sleep(millis: Int64): Unit \ IO =
         Thread.sleep(millis)
