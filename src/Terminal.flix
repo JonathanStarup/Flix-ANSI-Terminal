@@ -160,7 +160,7 @@ mod Terminal {
     }
 
     def output(x: s): Unit \ Console with ToString[s] =
-        do Console.print(ToString.toString(x))
+        Console.print(ToString.toString(x))
 
     def csi(s: String): String = {
         let escapeByte = "\u001B";
