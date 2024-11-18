@@ -18,7 +18,7 @@ mod TestTerminal {
     import java.lang.Thread
     import java.lang.System
 
-    use Console.run
+    use Console.runWithIO
 
     def output(x: t): Unit \ Console with ToString[t] =
         Console.print(ToString.toString(x))
@@ -36,7 +36,7 @@ mod TestTerminal {
         outputln("")
     }
 
-    pub def testCursorUp(): Unit \ IO = run(() -> {
+    pub def testCursorUp(): Unit \ IO = runWithIO(() -> {
         outputln("Expected Line: <<<x>>>");
         outputln("<<< >>>");
         output("   ");
@@ -49,7 +49,7 @@ mod TestTerminal {
         nextLineIsh()
     })
 
-    pub def testCursorDown(): Unit \ IO = run(() -> {
+    pub def testCursorDown(): Unit \ IO = runWithIO(() -> {
         outputln("Expected Line: <<<x>>>");
         outputln("<<< >>>");
         output("   ");
@@ -64,7 +64,7 @@ mod TestTerminal {
         nextLineIsh()
     })
 
-    pub def testCursorForward(): Unit \ IO = run(() -> {
+    pub def testCursorForward(): Unit \ IO = runWithIO(() -> {
         outputln("Expected Line: <<<x>>>");
         outputln("<<< >>>");
 
@@ -78,7 +78,7 @@ mod TestTerminal {
         nextLineIsh()
     })
 
-    pub def testCursorBack(): Unit \ IO = run(() -> {
+    pub def testCursorBack(): Unit \ IO = runWithIO(() -> {
         outputln("Expected Line: <<<x>>>");
         outputln("<<< >>>");
         output("       ");
@@ -93,7 +93,7 @@ mod TestTerminal {
         nextLineIsh()
     })
 
-    pub def testCursorTo(): Unit \ IO = run(() -> {
+    pub def testCursorTo(): Unit \ IO = runWithIO(() -> {
         Terminal.clearScreenAndReset();
         sleep(sleepTime());
         outputln("Expected Line: <<<x>>>");
@@ -107,7 +107,7 @@ mod TestTerminal {
         nextLineIsh()
     })
 
-    pub def testClearScreenAfterCursor(): Unit \ IO = run(() -> {
+    pub def testClearScreenAfterCursor(): Unit \ IO = runWithIO(() -> {
         outputln("Expected Line: <<<x>>>");
         outputln("<<<x>>>######");
         outputln("##########");
@@ -122,7 +122,7 @@ mod TestTerminal {
         nextLineIsh()
     })
 
-    pub def testClearScreenBeforeCursor(): Unit \ IO = run(() -> {
+    pub def testClearScreenBeforeCursor(): Unit \ IO = runWithIO(() -> {
         outputln("Expected Line: <<<x>>>");
         outputln("##########");
         outputln("####<<<x>>>");
@@ -137,7 +137,7 @@ mod TestTerminal {
         nextLineIsh()
     })
 
-    pub def testClearScreenAndReset(): Unit \ IO = run(() -> {
+    pub def testClearScreenAndReset(): Unit \ IO = runWithIO(() -> {
         outputln("Expected Line: <<<x>>>");
         outputln("##########");
         outputln("##########");
@@ -149,7 +149,7 @@ mod TestTerminal {
         nextLineIsh()
     })
 
-    pub def testClearLineAfterCursor(): Unit \ IO = run(() -> {
+    pub def testClearLineAfterCursor(): Unit \ IO = runWithIO(() -> {
         outputln("Expected Line: <<<x>>>");
         output("<<<x>>>#######");
 
@@ -161,7 +161,7 @@ mod TestTerminal {
         nextLineIsh()
     })
 
-    pub def testClearLineBeforeCursor(): Unit \ IO = run(() -> {
+    pub def testClearLineBeforeCursor(): Unit \ IO = runWithIO(() -> {
         outputln("Expected Line: <<<x>>>");
         output("#####<<<x>>>");
 
@@ -173,7 +173,7 @@ mod TestTerminal {
         nextLineIsh()
     })
 
-    pub def testClearLine(): Unit \ IO = run(() -> {
+    pub def testClearLine(): Unit \ IO = runWithIO(() -> {
         outputln("Expected Line: <<<x>>>");
         outputln("<<<x>>>");
         output("######");
@@ -186,7 +186,7 @@ mod TestTerminal {
         nextLineIsh()
     })
 
-    pub def testSaveAndRestore(): Unit \ IO = run(() -> {
+    pub def testSaveAndRestore(): Unit \ IO = runWithIO(() -> {
         outputln("Expected Line: <<<x>>>");
 
         // avoid scrolling
