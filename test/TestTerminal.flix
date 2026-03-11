@@ -18,7 +18,8 @@ mod TestTerminal {
     import java.lang.Thread
     import java.lang.System
 
-    use Console.runWithIO
+    use Sys.Console
+    use Sys.Console.runWithIO
 
     def output(x: t): Unit \ Console with ToString[t] =
         Console.print(ToString.toString(x))
