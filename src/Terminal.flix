@@ -18,6 +18,7 @@
 // https://en.wikipedia.org/wiki/ANSI_escape_code
 
 mod Terminal {
+    use Sys.Console
 
     ///
     /// Moves the cursor `n` cells up. If the cursor is / already at the edge of
